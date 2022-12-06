@@ -1,20 +1,26 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar'
+import {
+  DefaultTheme,
+  Provider as PaperProvider,
+  configureFonts,
+} from 'react-native-paper'
+
+import './i18n'
+import { AuthScreen } from './src/screens'
+import { theme } from './src/styles/theme'
+import { fontConfig } from './src/styles/font'
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const customTheme = {
+    ...DefaultTheme,
+    ...theme,
+    fonts: fontConfig,
+  }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  return (
+    <PaperProvider theme={customTheme}>
+      <AuthScreen />
+      <StatusBar style="auto" />
+    </PaperProvider>
+  )
+}
