@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar'
 import { Provider as PaperProvider } from 'react-native-paper'
-import { Login } from './src/screens/AuthScreens'
 import { customTheme } from './App.style'
-import { I18nManager, View } from 'react-native'
+import { I18nManager } from 'react-native'
 import { useEffect } from 'react'
 import './i18n'
 import { useTranslation } from 'react-i18next'
+import AppNavigator from 'src/navigation/AppNavigator'
 
 const App = () => {
   const { i18n } = useTranslation()
@@ -22,7 +22,7 @@ const App = () => {
 
   return (
     <PaperProvider theme={customTheme}>
-      <Login />
+      <AppNavigator />
       <StatusBar style="auto" />
     </PaperProvider>
   )

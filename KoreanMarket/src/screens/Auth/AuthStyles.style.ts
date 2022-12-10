@@ -17,7 +17,16 @@ export const AuthStyles = StyleSheet.create({
   view: {
     width: '80%',
   },
+  centeredView: {
+    paddingHorizontal: 20,
+  },
+  centeredVertically: {
+    justifyContent: 'center',
+  },
   actionBtn: {
     marginTop: 30,
+  },
+  icon: {
+    color: theme.colors.primary,
   },
 })

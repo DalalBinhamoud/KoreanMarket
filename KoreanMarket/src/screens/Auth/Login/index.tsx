@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Image, SafeAreaView, View } from 'react-native'
-
 import { Button, Card, TextInput, Text } from 'react-native-paper'
-import { AuthStyles } from './AuthStyles.style'
+import { IScreenNavigation } from 'src/models/screen'
+import { AuthStyles } from '../AuthStyles.style'
 
-const Login = () => {
+const Login = (props: IScreenNavigation) => {
   const { t } = useTranslation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  const NavigateToRegister = () => props.navigation.navigate('Register')
+  const NavigateToHome = () => props.navigation.navigate('Home')
 
   return (
     <SafeAreaView style={AuthStyles.container}>
@@ -40,10 +43,13 @@ const Login = () => {
               mode="contained"
               uppercase={false}
               style={AuthStyles.actionBtn}
+              onPress={NavigateToHome}
             >
               {t('auth.login')}
             </Button>
-            <Button uppercase={false}>{t('auth.signUp')}</Button>
+            <Button uppercase={false} onPress={NavigateToRegister}>
+              {t('auth.register')}
+            </Button>
           </Card.Content>
         </Card>
       </View>

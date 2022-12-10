@@ -1,4 +1,5 @@
 import Register from './Register'
 import Login from './Login'
+import OTP from './OTP'
 
-export { Login, Register }
+export { Login, Register, OTP }
