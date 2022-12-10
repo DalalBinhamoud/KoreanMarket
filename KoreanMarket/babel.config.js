@@ -9,11 +9,12 @@ module.exports = function (api) {
     },
     plugins: [
       [
-        'module:react-native-dotenv',
+        'module-resolver',
         {
-          envName: 'APP_ENV',
-          moduleName: '@env',
-          path: '.env',
+          alias: {
+            assets: './assets',
+            src: './src',
+          },
         },
       ],
     ],

@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "rootDir": ".",
+    "jsx": "react-native",
+    "outDir": "../dist/",
+    "resolveJsonModule": true,
+    "paths": {
+      "src": ["."]
+    }
+  },
+  "references": [
+    { "path": "../" } // reference this project to the one at the root dir`
+  ]
+}
