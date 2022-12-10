@@ -1,26 +1,30 @@
 import { StatusBar } from 'expo-status-bar'
-import {
-  DefaultTheme,
-  Provider as PaperProvider,
-  configureFonts,
-} from 'react-native-paper'
-
+import { Provider as PaperProvider } from 'react-native-paper'
+import { Login } from './src/screens/AuthScreens'
+import { customTheme } from './App.style'
+import { I18nManager, View } from 'react-native'
+import { useEffect } from 'react'
 import './i18n'
-import { AuthScreen } from './src/screens'
-import { theme } from './src/styles/theme'
-import { fontConfig } from './src/styles/font'
+import { useTranslation } from 'react-i18next'
 
-export default function App() {
-  const customTheme = {
-    ...DefaultTheme,
-    ...theme,
-    fonts: fontConfig,
-  }
+const App = () => {
+  const { i18n } = useTranslation()
+  //TODO: if user logged in move to another screen
+
+  // TODO: enhance updating language
+  useEffect(() => {
+    if (i18n.language === 'ar') {
+      I18nManager.forceRTL(true)
+    } else {
+      I18nManager.forceRTL(false)
+    }
+  }, [])
 
   return (
     <PaperProvider theme={customTheme}>
-      <AuthScreen />
+      <Login />
       <StatusBar style="auto" />
     </PaperProvider>
   )
 }
+export default App
