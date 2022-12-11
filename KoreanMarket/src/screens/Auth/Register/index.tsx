@@ -8,7 +8,7 @@ import { IScreenNavigation } from 'src/models/screen'
 const Register = (props: IScreenNavigation) => {
   const { t } = useTranslation()
 
-  const navigateToHome = () => props.navigation.navigate('Home')
+  const navigateToOTP = () => props.navigation.navigate('OTP')
 
   return (
     <SafeAreaView>
@@ -43,9 +43,10 @@ const Register = (props: IScreenNavigation) => {
           />
           <TextInput label={t('auth.phone')} keyboardType="phone-pad" />
           <Button
+            testID="register"
             mode="contained"
             style={AuthStyles.actionBtn}
-            onPress={navigateToHome}
+            onPress={navigateToOTP}
           >
             {t('auth.register')}
           </Button>

@@ -8,8 +8,9 @@ import { Button } from 'react-native-paper'
 import { useTranslation } from 'react-i18next'
 import { RESEND_OTP_TIME_LIMIT } from 'src/constants/Utilities'
 import * as Styled from 'src/styles/StyledComponent/TextStyles'
+import { IScreenNavigation } from 'src/models/screen'
 
-const OTP = () => {
+const OTP = (props: IScreenNavigation) => {
   const { t } = useTranslation()
   const [otpCode, setOTPCode] = useState('')
   const [isPinReady, setIsPinReady] = useState(false)
@@ -41,6 +42,8 @@ const OTP = () => {
     }, 1000)
   }
 
+  const NavigateToHome = () => props.navigation.navigate('Home')
+
   return (
     <SafeAreaView style={[AuthStyles.container]}>
       <Image
@@ -68,10 +71,12 @@ const OTP = () => {
         )}
 
         <Button
+          testID="confirmOTP"
           mode="contained"
           disabled={!isPinReady}
           uppercase={false}
           style={AuthStyles.actionBtn}
+          onPress={NavigateToHome}
         >
           {' '}
           {t('auth.sendOTP')}

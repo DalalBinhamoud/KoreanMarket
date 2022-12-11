@@ -7,13 +7,13 @@ import { AuthStyles } from '../AuthStyles.style'
 
 const Login = (props: IScreenNavigation) => {
   const { t } = useTranslation()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = React.useState('t')
+  const [password, setPassword] = React.useState('t')
 
   const NavigateToRegister = () => props.navigation.navigate('Register')
   const NavigateToForgetPassword = () =>
     props.navigation.navigate('ForgetPassword')
-  const NavigateToHome = () => props.navigation.navigate('Home')
+  const NavigateToOTP = () => props.navigation.navigate('OTP')
 
   return (
     <SafeAreaView style={AuthStyles.container}>
@@ -41,7 +41,11 @@ const Login = (props: IScreenNavigation) => {
               onChangeText={(value) => setPassword(value)}
             />
 
-            <Button uppercase={false} onPress={NavigateToForgetPassword}>
+            <Button
+              uppercase={false}
+              onPress={NavigateToForgetPassword}
+              testID="forgetPassword"
+            >
               {t('auth.forgetPassword')}
             </Button>
 
@@ -49,11 +53,16 @@ const Login = (props: IScreenNavigation) => {
               mode="contained"
               uppercase={false}
               style={AuthStyles.actionBtn}
-              onPress={NavigateToHome}
+              onPress={NavigateToOTP}
+              testID="login"
             >
               {t('auth.login')}
             </Button>
-            <Button uppercase={false} onPress={NavigateToRegister}>
+            <Button
+              uppercase={false}
+              onPress={NavigateToRegister}
+              testID="register"
+            >
               {t('auth.register')}
             </Button>
           </Card.Content>
