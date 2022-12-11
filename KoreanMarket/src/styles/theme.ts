@@ -45,6 +45,9 @@ export const theme = {
     disabled: 'rgba(32, 26, 24, 0.12)',
     placeholder: 'rgb(119, 87, 75)',
     notification: 'rgb(119, 87, 75)',
+    lightGray: 'rgb(211,211,211)',
+    gray: 'rgb(192,192,192)',
+    darkGray: 'rgb(97,97,97)',
   },
   myOwnProperty: true,
 }

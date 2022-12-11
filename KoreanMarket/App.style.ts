@@ -10,3 +10,8 @@ export const customTheme = {
     background: 'transparent',
   },
 }
+
+//constant styles
+
+// marginTop: 30
+// paddingHorizontal: 20

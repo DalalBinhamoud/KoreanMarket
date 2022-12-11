@@ -1,8 +1,18 @@
 {
   "auth": {
     "login": "Login",
-    "signUp": "Sign Up",
+    "register": "Register",
+    "registration": "Registration",
+    "OTPMsg": "Please enter the received OTP code",
+    "sendOTP": "Confirm OTP",
+    "prepareResendOTP": "Resend OTP in {{time}} seconds",
+    "resendOTP": "Resend OTP",
+    "forgetPassword": "Forget password?",
+    "resetPassword": "Reset Password",
+    "name": "Name",
     "email": "Email",
-    "password": "Password"
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "phone": "Phone Number"
   }
 }
