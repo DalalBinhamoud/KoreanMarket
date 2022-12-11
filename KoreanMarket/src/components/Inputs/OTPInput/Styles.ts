@@ -1,4 +1,5 @@
 import styled from 'styled-components/native'
+import { theme } from 'src/styles/theme'
 
 export const OTPInputContainer = styled.View`
   justify-content: center;
@@ -16,7 +17,7 @@ export const SplitOTPBoxesContainer = styled.Pressable`
   justify-content: space-evenly;
 `
 export const SplitBoxes = styled.View`
-  border-color: #e5e5e5;
+  border-color: ${() => theme.colors.darkGray};
   border-width: 2px;
   border-radius: 5px;
   padding: 12px;
@@ -26,10 +27,10 @@ export const SplitBoxes = styled.View`
 export const SplitBoxText = styled.Text`
   font-size: 20px;
   text-align: center;
-  color: #e5e5e5;
+  color: ${() => theme.colors.primary};
 `
 
 export const SplitBoxesFocused = styled(SplitBoxes)`
-  border-color: #ecdbba;
-  background-color: grey;
+  border-color: ${() => theme.colors.darkGray};
+  background-color: ${() => theme.colors.gray};
 `

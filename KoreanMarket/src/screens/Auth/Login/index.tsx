@@ -11,6 +11,8 @@ const Login = (props: IScreenNavigation) => {
   const [password, setPassword] = useState('')
 
   const NavigateToRegister = () => props.navigation.navigate('Register')
+  const NavigateToForgetPassword = () =>
+    props.navigation.navigate('ForgetPassword')
   const NavigateToHome = () => props.navigation.navigate('Home')
 
   return (
@@ -38,6 +40,10 @@ const Login = (props: IScreenNavigation) => {
               secureTextEntry={true}
               onChangeText={(value) => setPassword(value)}
             />
+
+            <Button uppercase={false} onPress={NavigateToForgetPassword}>
+              {t('auth.forgetPassword')}
+            </Button>
 
             <Button
               mode="contained"
