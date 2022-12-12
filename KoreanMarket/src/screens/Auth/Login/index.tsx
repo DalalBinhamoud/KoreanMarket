@@ -8,14 +8,24 @@ import { Formik } from 'formik'
 import ErrorMessage from 'src/components/Texts/ErrorMessage'
 import { loginForm } from './Validation/LoginForm'
 import { utilities } from 'src/constants/Utilities'
+import { ILoadingState } from 'src/models/store'
+import { bindActionCreators } from '@reduxjs/toolkit'
+import { hide, show } from 'src/store/Loading/LoadingAction'
+import { connect } from 'react-redux'
 
 const Login = (props: IScreenNavigation) => {
   const { t } = useTranslation()
   const { inputMaxLength } = utilities
 
   const NavigateToRegister = () => props.navigation.navigate('Register')
-  const NavigateToForgetPassword = () =>
-    props.navigation.navigate('ForgetPassword')
+  const NavigateToForgetPassword = () => {
+    props.showLoading()
+    setTimeout(() => {
+      props.hideLoading()
+      props.navigation.navigate('ForgetPassword')
+    }, 3000)
+  }
+
   const NavigateToOTP = () => props.navigation.navigate('OTP')
 
   return (
@@ -108,5 +118,17 @@ const Login = (props: IScreenNavigation) => {
     </SafeAreaView>
   )
 }
+const mapStateToProps = (store: { loading: ILoadingState }) => ({
+  loadingState: store.loading,
+})
 
-export default Login
+const mapDispatchToProps = (dispatch: any) =>
+  bindActionCreators(
+    {
+      hideLoading: hide,
+      showLoading: show,
+    },
+    dispatch,
+  )
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

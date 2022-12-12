@@ -6,6 +6,9 @@ import { useEffect } from 'react'
 import './i18n'
 import { useTranslation } from 'react-i18next'
 import AppNavigator from 'src/navigation/AppNavigator'
+import { Provider } from 'react-redux'
+import { store } from 'src/store'
+import Loading from 'src/components/Loading'
 
 const App = () => {
   const { i18n } = useTranslation()
@@ -21,10 +24,13 @@ const App = () => {
   }, [])
 
   return (
-    <PaperProvider theme={customTheme}>
-      <AppNavigator />
-      <StatusBar style="auto" />
-    </PaperProvider>
+    <Provider store={store}>
+      <PaperProvider theme={customTheme}>
+        <AppNavigator />
+        {/* <StatusBar style="auto" /> */}
+        <Loading />
+      </PaperProvider>
+    </Provider>
   )
 }
 export default App
