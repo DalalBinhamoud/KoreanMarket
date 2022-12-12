@@ -7,7 +7,7 @@ import {
   SplitBoxText,
   SplitBoxesFocused,
 } from './Styles'
-import { OTP_MAX_LENGTH } from 'src/constants/Utilities'
+import { utilities } from 'src/constants/Utilities'
 
 interface IProps {
   code: string
@@ -18,11 +18,12 @@ interface IProps {
 const OTPInput = ({ code, setCode, setIsPinReady }: IProps) => {
   const [isInputBoxFocused, setIsInputBoxFocused] = useState(false)
   const inputRef = useRef()
-  const boxArray = new Array(OTP_MAX_LENGTH).fill(0)
+  const { OTPConfig } = utilities
+  const boxArray = new Array(OTPConfig().OTPLength).fill(0)
 
   useEffect(() => {
     // update pin ready status
-    setIsPinReady(code.length === OTP_MAX_LENGTH)
+    setIsPinReady(code.length === OTPConfig().OTPLength)
     // clean up function
     return () => {
       setIsPinReady(false)
@@ -34,8 +35,8 @@ const OTPInput = ({ code, setCode, setIsPinReady }: IProps) => {
     const digit = code[index] || emptyInput
 
     const isCurrentValue = index === code.length
-    const isLastValue = index === OTP_MAX_LENGTH - 1
-    const isCodeComplete = code.length === OTP_MAX_LENGTH
+    const isLastValue = index === OTPConfig().OTPLength - 1
+    const isCodeComplete = code.length === OTPConfig().OTPLength
 
     const isValueFocused = isCurrentValue || (isLastValue && isCodeComplete)
 
@@ -67,7 +68,7 @@ const OTPInput = ({ code, setCode, setIsPinReady }: IProps) => {
         value={code}
         autoComplete="sms-otp" // TODO: implement autofill
         onChangeText={setCode}
-        maxLength={OTP_MAX_LENGTH}
+        maxLength={OTPConfig().OTPLength}
         ref={inputRef}
         onBlur={handleOnBlur}
       />

@@ -1,2 +1,12 @@
-export const OTP_MAX_LENGTH = 4
-export const RESEND_OTP_TIME_LIMIT = 60 // 60 seconds
+export const utilities = {
+  inputMaxLength: () => ({
+    email: 320,
+    name: 30,
+    password: 30,
+  }),
+
+  OTPConfig: () => ({
+    OTPLength: 4,
+    resendOTPTimeLimit: 60, // 60 seconds
+  }),
+}
