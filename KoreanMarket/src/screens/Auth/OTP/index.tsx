@@ -6,7 +6,7 @@ import { AuthStyles } from '../AuthStyles.style'
 import { Pressable, Keyboard } from 'react-native'
 import { Button } from 'react-native-paper'
 import { useTranslation } from 'react-i18next'
-import { RESEND_OTP_TIME_LIMIT } from 'src/constants/Utilities'
+import { utilities } from 'src/constants/Utilities'
 import * as Styled from 'src/styles/StyledComponent/TextStyles'
 import { IScreenNavigation } from 'src/models/screen'
 
@@ -15,7 +15,7 @@ const OTP = (props: IScreenNavigation) => {
   const [otpCode, setOTPCode] = useState('')
   const [isPinReady, setIsPinReady] = useState(false)
   const [resendButtonDisabledTime, setResendButtonDisabledTime] = useState(
-    RESEND_OTP_TIME_LIMIT,
+    utilities.OTPConfig().resendOTPTimeLimit,
   )
   let resendOtpTimerInterval: any
 

@@ -14,5 +14,12 @@
     "password": "الرقم السري",
     "confirmPassword": "تأكيد الرقم السري",
     "phone": "رقم الجوال"
+  },
+  "validation": {
+    "fieldIsRequired": "هذا الحقل مطلوب",
+    "invalidEmail": "صيغة البريد الإلكتروني غير صحيحة",
+    "lettersOnly": "هذا الحقل يقبل الحروف فقط",
+    "mismatchPassword": "يجب أن يكون الرقم السري متطابق",
+    "invalidPhone": "صيغة رقم الجوال غير صحيحة"
   }
 }

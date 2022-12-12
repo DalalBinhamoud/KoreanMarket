@@ -14,5 +14,12 @@
     "password": "Password",
     "confirmPassword": "Confirm Password",
     "phone": "Phone Number"
+  },
+  "validation": {
+    "fieldIsRequired": "This field is required",
+    "invalidEmail": "Invalid email format",
+    "lettersOnly": "This field accepts letters only",
+    "mismatchPassword": "Password mismatch",
+    "invalidPhone": "Invalid phone number"
   }
 }
