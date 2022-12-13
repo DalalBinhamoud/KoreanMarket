@@ -15,7 +15,9 @@ import spring.spring.security.CustomUserDetailsService;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import spring.spring.security.jwt.AuthEntryPointJwt;
+import spring.spring.security.jwt.AuthTokenFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -24,6 +26,14 @@ public class SecurityConfig {
 
     @Autowired
     private CustomUserDetailsService userDetailsService;
+
+    @Autowired
+    private AuthEntryPointJwt authEntryPointJwt;
+
+    @Bean
+    public AuthTokenFilter jwtAuthenticationFilter() {
+        return new AuthTokenFilter();
+    }
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -35,7 +45,10 @@ public class SecurityConfig {
         http.csrf().disable()
                 .authorizeHttpRequests((authz) -> authz
                         .anyRequest().authenticated())
-                .formLogin();
+                .exceptionHandling().authenticationEntryPoint(authEntryPointJwt);
+
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
 
     }
@@ -55,20 +68,5 @@ public class SecurityConfig {
                 .and()
                 .build();
     }
-
-    // @Bean
-    // public AuthenticationManager
-    // authenticationManager(AuthenticationConfiguration
-    // authenticationConfiguration)
-    // throws Exception {
-    // return authenticationConfiguration.getAuthenticationManager();
-    // }
-
-    // @Override
-    // protected void configure(AuthenticationManagerBuilder auth) throws Exception
-    // {
-    // auth.userDetailsService(userDetailsService)
-    // .passwordEncoder(passwordEncoder());
-    // }
 
 }
