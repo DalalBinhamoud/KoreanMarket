@@ -2,12 +2,12 @@ package spring.spring.controller;
 
 import spring.spring.entity.Role;
 import spring.spring.entity.User;
-import spring.spring.payload.JWTAuthResponse;
+import spring.spring.payload.AuthResponseDTO;
 import spring.spring.payload.LoginDto;
 import spring.spring.payload.RegisterDto;
 import spring.spring.repository.RoleRepository;
 import spring.spring.repository.UserRepository;
-import spring.spring.security.jwt.JwtUtils;
+import spring.spring.security.JWTGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,76 +20,72 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
     private UserRepository userRepository;
-
-    @Autowired
     private RoleRepository roleRepository;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
+    private JWTGenerator jwtGenerator;
 
     @Autowired
-    private JwtUtils jwtUtils;
-
-    // @PostMapping("/login")
-    // public ResponseEntity<JWTAuthResponse> authenticateUser(@RequestBody LoginDto
-    // loginDto) {
-    // Authentication authentication = authenticationManager.authenticate(new
-    // UsernamePasswordAuthenticationToken(
-    // loginDto.getEmail(), loginDto.getPassword()));
-
-    // SecurityContextHolder.getContext().setAuthentication(authentication);
-
-    // // get token form jwtUtils
-    // String token = jwtUtils.generateToken(authentication);
-
-    // return ResponseEntity.ok(new JWTAuthResponse(token));
-    // }
+    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository,
+                          RoleRepository roleRepository, PasswordEncoder passwordEncoder, JWTGenerator jwtGenerator) {
+        this.authenticationManager = authenticationManager;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtGenerator = jwtGenerator;
+    }
 
     @PostMapping("/login")
-    public ResponseEntity<JWTAuthResponse> authenticateUser(@RequestBody LoginDto loginDto) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDto.getEmail(), loginDto.getPassword()));
+    public ResponseEntity<AuthResponseDTO> login(HttpServletRequest req, @RequestBody LoginDto loginDto){
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                loginDto.getEmail(),
+                loginDto.getPassword()));
+                 
 
+
+                
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        // get token form tokenProvider
-        String token = jwtUtils.generateToken(authentication);
-
-        return ResponseEntity.ok(new JWTAuthResponse(token));
+         String token = jwtGenerator.generateToken(authentication);
+   
+        // return new ResponseEntity<>(token, HttpStatus.OK);
+        return  ResponseEntity.ok( new AuthResponseDTO(token));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody RegisterDto register) {
-
-        // add check for email exists in DB
-        if (userRepository.existsByEmail(register.getEmail())) {
-            return new ResponseEntity<>("Email is already taken!", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
+        if (userRepository.existsByEmail(registerDto.getEmail())) {
+            return new ResponseEntity<>("email is taken!", HttpStatus.BAD_REQUEST);
         }
 
-        // create user object
         User user = new User();
-        user.setName(register.getName());
-        user.setEmail(register.getEmail());
-        user.setPassword(passwordEncoder.encode(register.getPassword()));
-        user.setPhone(register.getPhone());
+        user.setEmail(registerDto.getEmail());
+        user.setName(registerDto.getName());
+        user.setPhone(registerDto.getPhone());
+        user.setPassword(passwordEncoder.encode((registerDto.getPassword())));
 
-        Role roles = roleRepository.findByName("ROLE_ADMIN").get();
-        user.setRoles(Collections.singleton(roles));
+        // convert roles list to roles set
+        Role role = new Role();
+        role.setName("ROLE_ADMIN");
+        Set<Role> rolesSet = new HashSet<>();
+        rolesSet.add(role);
+        user.setRoles(rolesSet);
+
+        // Role roles = roleRepository.findByName("ROLE_ADMIN").get();
+        // user.setRoles(Collections.singleton(roles));
 
         userRepository.save(user);
 
-        return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
-
+        return new ResponseEntity<>("User registered success!", HttpStatus.OK);
     }
 }
