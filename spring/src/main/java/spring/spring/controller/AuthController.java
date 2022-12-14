@@ -1,13 +1,18 @@
 package spring.spring.controller;
 
+import spring.spring.entity.RefreshToken;
 import spring.spring.entity.Role;
 import spring.spring.entity.User;
-import spring.spring.payload.AuthResponseDTO;
+import spring.spring.exception.TokenRefreshException;
+import spring.spring.jwtrequest.RefreshTokenRequest;
+import spring.spring.jwtresponse.LoginResponse;
+import spring.spring.jwtresponse.TokenRefreshResponse;
 import spring.spring.payload.LoginDto;
 import spring.spring.payload.RegisterDto;
 import spring.spring.repository.RoleRepository;
 import spring.spring.repository.UserRepository;
 import spring.spring.security.JWTGenerator;
+import spring.spring.services.RefreshTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,15 +21,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import javax.validation.Valid;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -45,21 +52,20 @@ public class AuthController {
         this.jwtGenerator = jwtGenerator;
     }
 
+    @Autowired
+    RefreshTokenService refreshTokenService;
+
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login(HttpServletRequest req, @RequestBody LoginDto loginDto){
+    public ResponseEntity<LoginResponse> login(HttpServletRequest req, @RequestBody LoginDto loginDto){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                 loginDto.getEmail(),
-                loginDto.getPassword()));
-                 
-
-
-                
+                loginDto.getPassword()));       
         SecurityContextHolder.getContext().setAuthentication(authentication);
          String token = jwtGenerator.generateToken(authentication);
-   
-        // return new ResponseEntity<>(token, HttpStatus.OK);
-        return  ResponseEntity.ok( new AuthResponseDTO(token));
+
+           RefreshToken refreshToken = refreshTokenService.createRefreshToken(loginDto.getEmail());
+         return ResponseEntity.ok(new LoginResponse(token, refreshToken.getToken(),loginDto.getEmail()));
     }
 
     @PostMapping("/register")
@@ -87,5 +93,26 @@ public class AuthController {
         userRepository.save(user);
 
         return new ResponseEntity<>("User registered success!", HttpStatus.OK);
+    }
+
+    @PostMapping("/refreshtoken")
+    public ResponseEntity<?> refreshtoken(@Valid @RequestBody RefreshTokenRequest request) {
+      String requestRefreshToken = request.getRefreshToken();
+
+
+      return refreshTokenService.findByToken(requestRefreshToken)
+          .map(refreshTokenService::verifyExpiration)
+          .map(RefreshToken::getUser)
+          .map(user -> {
+          
+            Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                user.getEmail(),
+                user.getPassword()));
+
+            String token = jwtGenerator.generateToken(authentication);
+            return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
+          })
+          .orElseThrow(() -> new TokenRefreshException(requestRefreshToken, "Refresh token is not in database!"));
     }
 }
