@@ -12,6 +12,7 @@ import spring.spring.payload.RegisterDto;
 import spring.spring.repository.RoleRepository;
 import spring.spring.repository.UserRepository;
 import spring.spring.security.JWTGenerator;
+import spring.spring.services.OTPService;
 import spring.spring.services.RefreshTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,12 +22,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import java.util.HashSet;
 import java.util.Set;
 import javax.validation.Valid;
@@ -54,6 +60,9 @@ public class AuthController {
 
     @Autowired
     RefreshTokenService refreshTokenService;
+
+    @Autowired
+    public OTPService otpService;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(HttpServletRequest req, @RequestBody LoginDto loginDto){
@@ -114,5 +123,17 @@ public class AuthController {
             return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
           })
           .orElseThrow(() -> new TokenRefreshException(requestRefreshToken, "Refresh token is not in database!"));
+    }
+
+    @RequestMapping(value="/logout", method = RequestMethod.GET)
+    public @ResponseBody String logout(HttpServletRequest request, HttpServletResponse response){
+       Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
+       if (auth != null){    
+       String username = auth.getName();
+       //Remove the recently used OTP from server. 
+       otpService.clearOTP(username);
+       new SecurityContextLogoutHandler().logout(request, response, auth);
+       }
+   return "redirect:/login?logout";    
     }
 }
