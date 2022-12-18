@@ -43,13 +43,10 @@ import spring.spring.helper.EmailTemplate;
 			String username = auth.getName();
 			int otp = otpService.generateOTP(username);
 			//Generate The Template to send OTP 
-			EmailTemplate template = new EmailTemplate("SendOtp.html");
-			Map replacements = new HashMap();
-			replacements.put("user", username);
-			replacements.put("otpnum", String.valueOf(otp));
-			String message = template.getTemplate(replacements);
+			 EmailTemplate template = new EmailTemplate("SendOtp.html");
+			 String message = template.getTemplate(String.valueOf(otp),username);
 	
-			emailService.sendOtpMessage("dalalmansourh3@gmail.com", "OTP - Korean MArket", message);
+			emailService.sendOtpMessage("dl0o0o0l33@gmail.com", "OTP - Korean MArket", message);
 			
 	return "otppage";
 	}

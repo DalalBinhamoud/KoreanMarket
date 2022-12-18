@@ -1,50 +1,28 @@
 package spring.spring.helper;
 
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 public class EmailTemplate {
     
     private String template;
-    private Map replacementParams;
+    String firstHyperText =  "<!DOCTYPE html><html><head></head> <body><h1> Hi {{user}}</h1><br/>";
+    String secHyperText =  "<h2> Otp Number from Spring Boot application is {{otpnum}}</h2> <br/></body></html>";
+    
     public EmailTemplate(String customtemplate) { 
-        
-        try {
+
+        try { 
            this.template = loadTemplate(customtemplate);
         } catch (Exception e) {
-           this.template = "Empty";
+           this.template = firstHyperText + secHyperText;
         }
     
 }
 private String loadTemplate(String customtemplate) throws Exception {
-    
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(customtemplate).getFile());
-        String content = "Empty";
-        try {
-            content = new String(Files.readAllBytes(file.toPath()));
-        } catch (IOException e) {
-            throw new Exception("Could not read template  = " + customtemplate);
-        }
-        return content;
+        return firstHyperText + secHyperText;
         
 }
-public String getTemplate(Map replacements) {
-    
+public String getTemplate(String otp, String username) {
         String cTemplate = this.template;
-        // Set<Map.Entry> replacmentsSet = replacements
-        Set<Map.Entry> replacementsSet = new HashSet(replacements.values());
-        // replacementsSet.add(replacements.values());
-
-        //Replace the String 
-        for (Map.Entry entry : replacementsSet) {
-            cTemplate = cTemplate.replace("{{" + entry.getKey() + "}}", (CharSequence) entry.getValue());
-        }
+        cTemplate = cTemplate.replace("{{user}}", (CharSequence) username);
+        cTemplate = cTemplate.replace("{{otpnum}}", (CharSequence) otp);
         return cTemplate;
     }
 }

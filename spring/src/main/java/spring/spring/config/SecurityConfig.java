@@ -67,7 +67,6 @@ public class SecurityConfig {
         return new JWTAuthenticationFilter();
     }
 
-    @Bean
     public JavaMailSender javaMailSender() {
         return new JavaMailSenderImpl();
     }
