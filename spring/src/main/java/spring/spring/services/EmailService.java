@@ -33,7 +33,6 @@ public class EmailService {
 		// message2.setText("test msg");
 		// message2.setSubject(subject);
 		// javaMailSender.send(message2);
-		// System.out.println("Mail Send...");
 	}
 
 	public SimpleMailMessage constructResetTokenEmail(

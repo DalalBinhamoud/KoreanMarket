@@ -39,7 +39,7 @@ public class ProductController {
         productService.deleteByProductId(productid);
     }
 
-    @PutMapping("/product")
+    @PutMapping("/product/{productid}")
     private Product updateProduct(@RequestBody Product product){
         productService.createOrUpdateProduct(product);
         return product;
