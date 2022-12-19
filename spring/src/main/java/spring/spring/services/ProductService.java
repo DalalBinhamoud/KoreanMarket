@@ -26,9 +26,7 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public Product createOrUpdateProduct(Product product) {
-        System.out.print("test=1=");
-        System.out.print(product);
+    public Product createOrUpdateProduct(Product product) {    
         productRepository.save(product);
         return product;
     }
