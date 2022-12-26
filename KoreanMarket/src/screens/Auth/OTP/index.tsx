@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { utilities } from 'src/constants/Utilities'
 import * as Styled from 'src/styles/StyledComponent/TextStyles'
 import { IScreenNavigation } from 'src/models/screen'
+import { getValueFor } from "src/Store/SecureStore";
 
 const OTP = (props: IScreenNavigation) => {
   const { t } = useTranslation()
@@ -42,7 +43,9 @@ const OTP = (props: IScreenNavigation) => {
     }, 1000)
   }
 
-  const NavigateToHome = () => props.navigation.navigate('Home')
+  const NavigateToHome = () => {
+    props.navigation.navigate('Home')
+}
 
   return (
     <SafeAreaView style={[AuthStyles.container]}>
