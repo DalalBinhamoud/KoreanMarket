@@ -1,14 +1,14 @@
 export const theme = {
   colors: {
-    primary: 'rgb(186, 23, 45)',
+    primary: 'rgb(103, 137, 131)',
     onPrimary: 'rgb(255, 255, 255)',
     primaryContainer: 'rgb(255, 219, 206)',
     onPrimaryContainer: 'rgb(55, 14, 0)',
-    secondary: 'rgb(250, 235, 215)',
+    secondary: 'rgb(240, 233, 210)',
     onSecondary: 'rgb(109, 92, 63)',
     secondaryContainer: 'rgb(255, 219, 206)',
     onSecondaryContainer: 'rgb(44, 22, 13)',
-    tertiary: 'rgb(104, 94, 48)',
+    tertiary: 'rgb(24, 29, 49)',
     onTertiary: 'rgb(255, 255, 255)',
     tertiaryContainer: 'rgb(241, 227, 168)',
     onTertiaryContainer: 'rgb(33, 27, 0)',
