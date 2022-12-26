@@ -8,12 +8,26 @@ import { Formik } from 'formik'
 import ErrorMessage from 'src/components/Texts/ErrorMessage'
 import { registerForm } from './Validation/RegisterForm'
 import { utilities } from 'src/constants/Utilities'
+import AuthService from 'src/services/Auth'
+import { useState } from 'react'
+import PopUp from 'src/components/Modal/PopUp'
 
 const Register = (props: IScreenNavigation) => {
   const { t } = useTranslation()
   const { inputMaxLength } = utilities
+  const {Register } = AuthService()
+  const [errorMessage, setErrorMessage] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const navigateToOTP = () => props.navigation.navigate('OTP')
+  const submitForm = (values) => {
+
+     Register(values).then(()=>{
+      props.navigation.navigate('OTP')
+     },(error)=>{
+      setModalVisible(true)
+      setErrorMessage(error.response.data)
+     })
+  }
 
   return (
     <SafeAreaView>
@@ -22,6 +36,7 @@ const Register = (props: IScreenNavigation) => {
         hasBackBtn={true}
         navigation={props.navigation}
       />
+      <PopUp message={errorMessage} visible={modalVisible} setVisible={setModalVisible}/>
       <ScrollView>
         <View style={AuthStyles.centeredView}>
           <Formik
@@ -32,7 +47,7 @@ const Register = (props: IScreenNavigation) => {
               confirmPassword: '',
               phone: '',
             }}
-            onSubmit={navigateToOTP}
+            onSubmit={submitForm}
             validationSchema={registerForm}
           >
             {({

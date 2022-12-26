@@ -1,18 +1,56 @@
 import axios from 'axios'
-// import { REACT_APP_BASE_URL } from '@env'
+import { REACT_APP_BASE_URL } from '@env'
+import { getValueFor, saveValue, removeValueFor} from 'src/Store/SecureStore'
+import { object } from 'yup'
 
-// Create axios client, pre-configured with baseURL
+
 let api = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+  baseURL: REACT_APP_BASE_URL,
   timeout: 10000,
 })
 
-// Set JSON Web Token in Client to be included in all calls
-export const setClientToken = (token) => {
-  api.interceptors.request.use(function (config) {
-    config.headers.Authorization = `Bearer ${token}`
+const  token = getValueFor('token')
+
+  api.interceptors.request.use((config) => {
+    if(token?._z){
+      config.headers.Authorization = `Bearer `
+    }else{
+      config.headers.Authorization = `Bearer ${token} `
+    }
+
     return config
-  })
-}
+  });
+
+  api.interceptors.response.use(
+    (res) => {
+      return res;
+    },
+    async (err) => {
+      const originalConfig = err.config;
+  
+      if (!originalConfig.url.includes('auth/') && err.response) {
+        // Access Token was expired
+        if (err.response.status === 401 && !originalConfig._retry && token?._z) {
+          originalConfig._retry = true;
+  
+          try {
+            const rs = await api.post("/auth/refreshtoken", {
+              refreshToken: getValueFor('refreshToken'),
+            });
+  
+            const { accessToken } = rs.data;
+            saveValue('token', accessToken)
+  
+            return api(originalConfig);
+          } catch (_error) {
+            return Promise.reject(_error);
+          }
+        }
+      }
+      return Promise.reject(err);
+    }
+  );
+  
+
 
 export default api

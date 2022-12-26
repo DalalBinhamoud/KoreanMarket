@@ -11,6 +11,7 @@
     "resetPassword": "Reset Password",
     "name": "Name",
     "email": "Email",
+    "emailNotFound": "Email not found",
     "password": "Password",
     "confirmPassword": "Confirm Password",
     "phone": "Phone Number"
@@ -21,5 +22,9 @@
     "lettersOnly": "This field accepts letters only",
     "mismatchPassword": "Password mismatch",
     "invalidPhone": "Invalid phone number"
+  },
+  "btnText": {
+    "ok": "Ok",
+    "cancel": "Cancel"
   }
 }
