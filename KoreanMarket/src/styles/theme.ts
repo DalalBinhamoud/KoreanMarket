@@ -48,6 +48,7 @@ export const theme = {
     lightGray: 'rgb(211,211,211)',
     gray: 'rgb(192,192,192)',
     darkGray: 'rgb(97,97,97)',
+    white: 'ffffff',
   },
   myOwnProperty: true,
 }

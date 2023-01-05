@@ -1,5 +1,5 @@
-import Home from './Home'
+import Products from './Products'
 import Settings from './Settings'
 
 
-export {Home ,Settings}
+export {Products ,Settings}

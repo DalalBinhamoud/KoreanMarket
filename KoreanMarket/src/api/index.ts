@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { REACT_APP_BASE_URL } from '@env'
-import { getValueFor, saveValue, removeValueFor} from 'src/Store/SecureStore'
-import { object } from 'yup'
+import { getValueFor, saveValue } from 'src/Store/SecureStore'
+import * as Device from 'expo-device'
 
 
 let api = axios.create({
@@ -9,7 +9,8 @@ let api = axios.create({
   timeout: 10000,
 })
 
-const  token = getValueFor('token')
+//Device.brand;  Android: "google", "xiaomi"; iOS: "Apple"; web: null
+const  token = Device.brand? getValueFor('token') : {_z: localStorage.getItem('token') } 
 
   api.interceptors.request.use((config) => {
     if(token?._z === null){
@@ -34,7 +35,7 @@ const  token = getValueFor('token')
   
           try {
             const rs = await api.post("/auth/refreshtoken", {
-              refreshToken: getValueFor('refreshToken'),
+              refreshToken: Device.brand? getValueFor('refreshToken'): localStorage.getItem('refreshToken'),
             });
   
             const { accessToken } = rs.data;

@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { View } from "react-native";
-import { List } from "react-native-paper";
+import { useTranslation } from "react-i18next";
+import { ScrollView, View } from "react-native";
+import { Button, List, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Header } from "src/components/Layouts";
 import { Product } from "src/models/Product";
 import ProductService from "src/services/Product";
+import { ProductsStyle } from "./ProductsStyle";
 
-const Home = () => {
+const Products = () => {
+  const { t } = useTranslation()
   const [products, setProducts] = useState<Product[]>([]);
   const { getProducts } = ProductService();
 
@@ -18,8 +20,7 @@ const Home = () => {
 
   return (
     <SafeAreaView>
-      <Header title="welcome" hasBackBtn={false} />
-      <View>
+      <ScrollView style={ProductsStyle.scrollViewHight}>
         {products.map((product,index) => (
           <List.Item
             key={index}
@@ -28,9 +29,10 @@ const Home = () => {
             left={(props) => <List.Icon {...props} icon="file" />}
           />
         ))}
-      </View>
+      </ScrollView>
+      <Button style={ProductsStyle.addBtn}><Text adjustsFontSizeToFit={true} style={ProductsStyle.plus}> + </Text></Button>
     </SafeAreaView>
   );
 };
 
-export default Home;
+export default Products;
