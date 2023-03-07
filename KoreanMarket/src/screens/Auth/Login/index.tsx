@@ -62,7 +62,7 @@ const Login = (props: IScreenNavigation) => {
           <Card.Content>
             <Text>{t("auth.email")}</Text>
             <Formik
-              initialValues={{ email: "", password: "" }}
+              initialValues={{ email: "dd@ww.ww", password: "aA@12345" }}
               onSubmit={submitForm}
               validationSchema={loginForm}
             >
@@ -72,10 +72,12 @@ const Login = (props: IScreenNavigation) => {
                 setFieldTouched,
                 touched,
                 errors,
+                values
               }) => (
                 <>
                   <TextInput
                     testID="email"
+                    value={values.email}
                     label={t("auth.email")}
                     maxLength={inputMaxLength().email}
                     keyboardType="email-address"
@@ -92,6 +94,7 @@ const Login = (props: IScreenNavigation) => {
 
                   <TextInput
                     testID="password"
+                    value={values.password}
                     label={t("auth.password")}
                     maxLength={inputMaxLength().password}
                     secureTextEntry={true}

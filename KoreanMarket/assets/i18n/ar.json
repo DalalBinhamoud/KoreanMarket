@@ -27,5 +27,27 @@
     "ok": "حسناً",
     "cancel": "إلغاء"
   },
+  "crud": {
+    "create": "إنشاء",
+    "view": "استعراض",
+    "update": "تعديل",
+    "delete": "حذف"
+  },
+  "product": {
+    "index": "منتج",
+    "name": "اسم المنتج",
+    "description": "وصف المنتج",
+    "category": "نوع المنتج",
+    "price": "سعر المنتج",
+    "unitsInStock": "المتواجد في المخزون"
+  },
+  "productCat": {
+    "clothes": "ملابس",
+    "food": "أطعمة",
+    "electronics": "إلكترونيات"
+  },
+  "currency": {
+    "SR": "ريال"
+  },
   "welcome": "مرحبا"
 }

@@ -49,6 +49,7 @@ export const theme = {
     gray: 'rgb(192,192,192)',
     darkGray: 'rgb(97,97,97)',
     white: 'ffffff',
+    black: '000000'
   },
   myOwnProperty: true,
 }

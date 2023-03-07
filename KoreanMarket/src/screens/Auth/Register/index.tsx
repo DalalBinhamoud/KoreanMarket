@@ -11,6 +11,7 @@ import { utilities } from 'src/constants/Utilities'
 import AuthService from 'src/services/Auth'
 import { useState } from 'react'
 import PopUp from 'src/components/Modal/PopUp'
+import { globalStyles } from 'src/styles/global.style'
 
 const Register = (props: IScreenNavigation) => {
   const { t } = useTranslation()
@@ -38,7 +39,7 @@ const Register = (props: IScreenNavigation) => {
       />
       <PopUp message={errorMessage} visible={modalVisible} setVisible={setModalVisible}/>
       <ScrollView>
-        <View style={AuthStyles.centeredView}>
+        <View style={globalStyles.centeredView}>
           <Formik
             initialValues={{
               name: '',
@@ -146,7 +147,7 @@ const Register = (props: IScreenNavigation) => {
                 <Button
                   testID="register"
                   mode="contained"
-                  style={AuthStyles.actionBtn}
+                  style={globalStyles.actionBtn}
                   onPress={handleSubmit}
                 >
                   {t('auth.register')}

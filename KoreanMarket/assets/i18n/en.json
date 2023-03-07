@@ -27,5 +27,27 @@
     "ok": "Ok",
     "cancel": "Cancel"
   },
+  "crud": {
+    "create": "Create",
+    "view": "View",
+    "update": "Update",
+    "delete": "Delete"
+  },
+  "product": {
+    "index": "Product",
+    "name": "Product Name",
+    "description": "Product Description",
+    "category": "Product Category",
+    "price": "Price",
+    "unitsInStock": "Number of Items in Stock"
+  },
+  "productCat": {
+    "clothes": "Clothes",
+    "food": "Food",
+    "electronics": "Electronics"
+  },
+  "currency": {
+    "SR": "SR"
+  },
   "welcome": "Welcome"
 }
