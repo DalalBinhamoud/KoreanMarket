@@ -6,6 +6,7 @@ import {Products, Settings} from '../screens/Tabs'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {Button} from 'react-native-paper'
 import * as Device from 'expo-device'
+import ProductForm from '../screens/Tabs/Products/Widgets/ProductForm/ProductForm'
 
 const AppNavigator = () => {
   const { Navigator, Screen } = createStackNavigator()
@@ -18,7 +19,7 @@ const AppNavigator = () => {
       tabBarIcon: ({ focused, color, size }) => {
         let iconName;
 
-        if (route.name === 'Home') {
+        if (route.name === 'Products') {
           iconName = focused
             ? 'home'
             : 'home-outline';
@@ -32,14 +33,14 @@ const AppNavigator = () => {
       tabBarActiveTintColor: 'tomato',
       tabBarInactiveTintColor: 'gray',
     })}>
-        <Tab.Screen name="Home" component={Products}></Tab.Screen>
+        <Tab.Screen name="Products" component={Products}></Tab.Screen>
         <Tab.Screen name="Settings" component={Settings}></Tab.Screen>
       </Tab.Navigator>
   
 
   return (
     <NavigationContainer>
-       {isLoggedIn?._z ? <Screen name="Home" component={TabNavigator}></Screen>:
+       {isLoggedIn?._z ? <Screen name="Tabs" component={TabNavigator}></Screen>:
       <Navigator
         screenOptions={{
           headerShown: false,
@@ -51,6 +52,7 @@ const AppNavigator = () => {
         <Screen name="Register" component={Register}></Screen>
         <Screen name="OTP" component={OTP}></Screen>
         <Screen name="ForgetPassword" component={ForgetPassword}></Screen>
+        <Screen name="product-details" component={ProductForm}></Screen>
       
       </Navigator>}
     </NavigationContainer>

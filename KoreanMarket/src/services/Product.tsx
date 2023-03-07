@@ -1,5 +1,5 @@
 import api from 'src/api'
-import { Product } from 'src/models/Product'
+import { IProduct } from 'src/models/Product'
 
 const ProductService = () => {
   const getProducts = () => {
@@ -14,13 +14,13 @@ const ProductService = () => {
     })
   }
 
-  const addProduct = (product: Product) => {
+  const addProduct = (product: IProduct) => {
     return api.post(`/products/product`, product).then((res) => {
       return res
     })
   }
 
-  const updateProduct = (product: Product, productId: string) => {
+  const updateProduct = (product: IProduct, productId: string) => {
     return api.put(`/products/product/${productId}`, product).then((res) => {
       return res
     })
