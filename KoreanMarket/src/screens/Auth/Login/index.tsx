@@ -11,6 +11,7 @@ import { utilities } from "src/constants/Utilities";
 import AuthService from "src/services/Auth";
 import PopUp from "src/components/Modal/PopUp";
 import { saveValue } from "src/Store/SecureStore";
+import * as Device from 'expo-device'
 
 const Login = (props: IScreenNavigation) => {
   const { t } = useTranslation();
@@ -26,8 +27,15 @@ const Login = (props: IScreenNavigation) => {
   const submitForm = (values) => {
     Login(values).then(
       (res) => {
-        saveValue("token", res.data.token);
-        saveValue("refreshToken", res.data.refreshToken);
+        if(Device.brand){ // Android: "google", "xiaomi"; iOS: "Apple"; web: null
+          saveValue("token", res.data.token);
+          saveValue("refreshToken", res.data.refreshToken);
+        }else{
+          // since SecureStore is not compatible with web, the token will be stored in local storage
+          localStorage.setItem('token', res.data.token)
+          localStorage.setItem('refreshToken', res.data.refreshToken)
+        }
+       
         props.navigation.navigate("OTP");
       },
       (error) => {
